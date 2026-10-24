@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import qs.Commons as OmarchyTheme
 import Quickshell
 import Quickshell.Io
 
@@ -113,27 +114,27 @@ QtObject {
   }
 
   function resolveStateColor(token, foreground, accent, urgent, fallback) {
-    var fb = fallback || foreground || Color.foreground
+    var fb = fallback || foreground || OmarchyTheme.Color.foreground
     var s = String(token || "").replace(/^\s+|\s+$/g, "")
     var role = s.toLowerCase()
-    if (role === "foreground" || role === "text") return foreground || Color.foreground
-    if (role === "accent") return accent || Color.accent
-    if (role === "urgent") return urgent || Color.urgent
-    if (role === "background") return Color.background
+    if (role === "foreground" || role === "text") return foreground || OmarchyTheme.Color.foreground
+    if (role === "accent") return accent || OmarchyTheme.Color.accent
+    if (role === "urgent") return urgent || OmarchyTheme.Color.urgent
+    if (role === "background") return OmarchyTheme.Color.background
     if (role === "transparent") return Qt.rgba(0, 0, 0, 0)
     return colorFromHex(s, fb)
   }
 
   function normalStateColor(foreground, accent, urgent) {
-    return resolveStateColor(normalColorToken, foreground, accent, urgent, foreground || Color.foreground)
+    return resolveStateColor(normalColorToken, foreground, accent, urgent, foreground || OmarchyTheme.Color.foreground)
   }
 
   function hoverStateColor(foreground, accent, urgent) {
-    return resolveStateColor(hoverColorToken, foreground, accent, urgent, foreground || Color.foreground)
+    return resolveStateColor(hoverColorToken, foreground, accent, urgent, foreground || OmarchyTheme.Color.foreground)
   }
 
   function selectedStateColor(foreground, accent, urgent) {
-    return resolveStateColor(selectedColorToken, foreground, accent, urgent, foreground || Color.foreground)
+    return resolveStateColor(selectedColorToken, foreground, accent, urgent, foreground || OmarchyTheme.Color.foreground)
   }
 
   function pressedStateColor(foreground, accent, urgent) {
@@ -148,7 +149,7 @@ QtObject {
   }
 
   function selectionStateColor(foreground, accent, urgent) {
-    return resolveStateColor(selectionColorToken, foreground, accent, urgent, foreground || Color.foreground)
+    return resolveStateColor(selectionColorToken, foreground, accent, urgent, foreground || OmarchyTheme.Color.foreground)
   }
 
   function normalFillFor(foreground, accent, urgent) { return Util.alpha(normalStateColor(foreground, accent, urgent), normalFillAlpha) }
@@ -186,17 +187,17 @@ QtObject {
   }
 
   // Convenience colors resolved against the foundational palette.
-  readonly property color normalFill: normalFillFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color hoverFill: hoverFillFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color selectedFill: selectedFillFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color pressedFill: pressedFillFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color focusFillColor: focusFillFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color normalBorderColor: normalBorderFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color hoverBorderColor: hoverBorderFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color selectedBorderColor: selectedBorderFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color focusBorderColor: focusBorderFor(Color.foreground, Color.accent, Color.urgent)
-  readonly property color selectedAccentFill: Util.alpha(Color.accent, selectedFillAlpha)
-  readonly property color selectionFill: selectionFillFor(Color.foreground, Color.accent, Color.urgent)
+  readonly property color normalFill: normalFillFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color hoverFill: hoverFillFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color selectedFill: selectedFillFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color pressedFill: pressedFillFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color focusFillColor: focusFillFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color normalBorderColor: normalBorderFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color hoverBorderColor: hoverBorderFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color selectedBorderColor: selectedBorderFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color focusBorderColor: focusBorderFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
+  readonly property color selectedAccentFill: Util.alpha(OmarchyTheme.Color.accent, selectedFillAlpha)
+  readonly property color selectionFill: selectionFillFor(OmarchyTheme.Color.foreground, OmarchyTheme.Color.accent, OmarchyTheme.Color.urgent)
 
   // ---------------------------------------------------------- spacing
   //
@@ -386,7 +387,7 @@ QtObject {
   }
 
   // Pull typography, bar dimensions, state tokens, and spacing out of the
-  // shell.toml dict that Color already parsed. Called by Color.loadShell so
+  // shell.toml dict that Color already parsed. Called by OmarchyTheme.Color.loadShell so
   // a single parse pass feeds both singletons.
   function applyShellValues(values) {
     var fontOut = {}

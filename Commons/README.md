@@ -1,7 +1,7 @@
 # Commons and Ui: copied from the Omarchy shell
 
 These files are copies, not originals. Refresh them from the Omarchy shell rather
-than editing them, and keep the one local change below.
+than editing them, and keep the local changes below.
 
 | File | Copied from | Date |
 |---|---|---|
@@ -22,8 +22,15 @@ adds an `execArgv()` helper; OmaRead does not need it, so it keeps the upstream 
 
 `Ui/qmldir` is trimmed to the three components OmaRead uses.
 
-## Local change
+## Local changes
 
 `Color.qml` line 18: `currentThemePath` reads `OMAREAD_THEME_DIR` first, so the app
 (and `tools/screenshot`) can render under any theme directory without touching the
 real theme. Re-apply this one line after a refresh.
+
+`Commons/Border.qml`, `Commons/Style.qml`, and `Ui/PanelToolTip.qml`: theme
+references use `OmarchyTheme.Color` through a namespaced Commons import.
+QtQuick 6.12 also exports `Color`, so unqualified references resolve to Qt's
+utility singleton instead of the theme, including inside the Commons module.
+Preserve this qualification after a refresh unless upstream already qualifies
+its palette references.

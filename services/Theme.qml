@@ -3,6 +3,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.Commons
+import qs.Commons as OmarchyTheme
 import "../lib/palette.js" as Palette
 
 // Named colours from the current Omarchy theme (colors.toml) on top of the
@@ -14,53 +15,53 @@ Singleton {
   id: root
 
   readonly property string overrideDir: Quickshell.env("OMAREAD_THEME_DIR") || ""
-  readonly property string themeDir: Color.currentThemePath
+  readonly property string themeDir: OmarchyTheme.Color.currentThemePath
   property var named: ({})
   property string currentName: ""
   // With an override, a theme.name beside the directory (a fake
   // current/theme + current/theme.name, as `omarchy theme set` makes) is
   // followed too; otherwise the directory's own name is the theme's name.
   readonly property string name: currentName || (overrideDir ? overrideDir.replace(/\/+$/, "").split("/").pop() : "")
-  readonly property bool light: named.mode ? named.mode === "light" : luminance(Color.background) > 0.5
+  readonly property bool light: named.mode ? named.mode === "light" : luminance(OmarchyTheme.Color.background) > 0.5
   // Bumped after every (re)load so views can re-derive cached rich text.
   property int revision: 0
 
-  readonly property color bg: Color.background
-  readonly property color fg: Color.foreground
-  readonly property color accent: Color.accent
+  readonly property color bg: OmarchyTheme.Color.background
+  readonly property color fg: OmarchyTheme.Color.foreground
+  readonly property color accent: OmarchyTheme.Color.accent
 
-  readonly property color green: named.green || named.color2 || Color.accent
-  readonly property color red: named.red || named.color1 || Color.urgent
-  readonly property color yellow: named.yellow || named.color3 || Color.accent
-  readonly property color blue: named.blue || named.color4 || Color.accent
-  readonly property color magenta: named.magenta || named.color5 || Color.accent
-  readonly property color cyan: named.cyan || named.color6 || Color.accent
-  readonly property color orange: named.orange || named.yellow || named.color3 || Color.urgent
+  readonly property color green: named.green || named.color2 || OmarchyTheme.Color.accent
+  readonly property color red: named.red || named.color1 || OmarchyTheme.Color.urgent
+  readonly property color yellow: named.yellow || named.color3 || OmarchyTheme.Color.accent
+  readonly property color blue: named.blue || named.color4 || OmarchyTheme.Color.accent
+  readonly property color magenta: named.magenta || named.color5 || OmarchyTheme.Color.accent
+  readonly property color cyan: named.cyan || named.color6 || OmarchyTheme.Color.accent
+  readonly property color orange: named.orange || named.yellow || named.color3 || OmarchyTheme.Color.urgent
   // Links: the accent, unless the theme's accent is its text colour, then blue.
-  readonly property color link: Palette.linkColor(hex(Color.accent), hex(Color.foreground), hex(blue))
+  readonly property color link: Palette.linkColor(hex(OmarchyTheme.Color.accent), hex(OmarchyTheme.Color.foreground), hex(blue))
 
   // Text tiers: foreground mixed toward the background, so they read the
   // same way in light and dark themes (Qt.darker would brighten nothing).
-  readonly property color text: Color.foreground
-  readonly property color strong: named.bright_foreground || Color.foreground
-  readonly property color dim: mix(Color.foreground, Color.background, 0.34)
-  readonly property color faint: mix(Color.foreground, Color.background, 0.58)
-  readonly property color ghost: mix(Color.foreground, Color.background, 0.8)
+  readonly property color text: OmarchyTheme.Color.foreground
+  readonly property color strong: named.bright_foreground || OmarchyTheme.Color.foreground
+  readonly property color dim: mix(OmarchyTheme.Color.foreground, OmarchyTheme.Color.background, 0.34)
+  readonly property color faint: mix(OmarchyTheme.Color.foreground, OmarchyTheme.Color.background, 0.58)
+  readonly property color ghost: mix(OmarchyTheme.Color.foreground, OmarchyTheme.Color.background, 0.8)
 
   // Surfaces, as translucent washes of the foreground over the background so
   // every theme gets the same relative depth.
-  readonly property color raised: Util.alpha(Color.foreground, light ? 0.045 : 0.04)
-  readonly property color sunken: Util.alpha(light ? Color.foreground : "#000000", light ? 0.035 : 0.22)
+  readonly property color raised: Util.alpha(OmarchyTheme.Color.foreground, light ? 0.045 : 0.04)
+  readonly property color sunken: Util.alpha(light ? OmarchyTheme.Color.foreground : "#000000", light ? 0.035 : 0.22)
   // Code panels sit one step below the page: the theme's own darker
   // background when it names one.
-  readonly property color panel: named.dark_background ? named.dark_background : Qt.darker(Color.background, light ? 1.04 : 1.2)
-  readonly property color card: Util.alpha(Color.foreground, 0.035)
-  readonly property color hairline: Util.alpha(Color.foreground, light ? 0.14 : 0.12)
-  readonly property color hairlineSoft: Util.alpha(Color.foreground, light ? 0.09 : 0.075)
-  readonly property color selection: Util.alpha(Color.accent, light ? 0.22 : 0.3)
-  readonly property color chipFill: Util.alpha(Color.foreground, light ? 0.07 : 0.085)
-  readonly property color chipEdge: Util.alpha(Color.foreground, light ? 0.07 : 0.06)
-  readonly property color hover: Util.alpha(Color.foreground, 0.06)
+  readonly property color panel: named.dark_background ? named.dark_background : Qt.darker(OmarchyTheme.Color.background, light ? 1.04 : 1.2)
+  readonly property color card: Util.alpha(OmarchyTheme.Color.foreground, 0.035)
+  readonly property color hairline: Util.alpha(OmarchyTheme.Color.foreground, light ? 0.14 : 0.12)
+  readonly property color hairlineSoft: Util.alpha(OmarchyTheme.Color.foreground, light ? 0.09 : 0.075)
+  readonly property color selection: Util.alpha(OmarchyTheme.Color.accent, light ? 0.22 : 0.3)
+  readonly property color chipFill: Util.alpha(OmarchyTheme.Color.foreground, light ? 0.07 : 0.085)
+  readonly property color chipEdge: Util.alpha(OmarchyTheme.Color.foreground, light ? 0.07 : 0.06)
+  readonly property color hover: Util.alpha(OmarchyTheme.Color.foreground, 0.06)
 
   function mix(a, b, t) {
     return Qt.rgba(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, 1)
@@ -73,7 +74,7 @@ Singleton {
   // A colour flattened onto the page background: rich text cannot blend
   // alpha, so anything it paints must be opaque.
   function flat(c, a) {
-    return mix(Color.background, c, a)
+    return mix(OmarchyTheme.Color.background, c, a)
   }
 
   function hex(c) {
@@ -99,7 +100,7 @@ Singleton {
     printErrors: false
     onLoaded: {
       root.named = root.parseNamed(text())
-      Color.loadColors(text())
+      OmarchyTheme.Color.loadColors(text())
       root.revision++
     }
   }
@@ -111,7 +112,7 @@ Singleton {
     // First load is Color's own; only feed it again after a switch.
     property bool primed: false
     onLoaded: {
-      if (primed) Color.loadShell(text())
+      if (primed) OmarchyTheme.Color.loadShell(text())
       primed = true
     }
   }
@@ -119,7 +120,7 @@ Singleton {
   // `omarchy theme set` swaps current/theme, then rewrites theme.name.
   FileView {
     id: nameFile
-    path: root.overrideDir ? root.overrideDir.replace(/\/+$/, "") + ".name" : Color.stateHome + "/omarchy/current/theme.name"
+    path: root.overrideDir ? root.overrideDir.replace(/\/+$/, "") + ".name" : OmarchyTheme.Color.stateHome + "/omarchy/current/theme.name"
     watchChanges: true
     printErrors: false
     onLoaded: root.currentName = text().trim()

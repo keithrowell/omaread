@@ -113,6 +113,7 @@ other Markdown files open in a new window at their anchor, and web links open in
 | Command | What it does |
 |---|---|
 | `tools/test` | Runs the JavaScript unit tests (parser, inline, code, theme) headless |
+| `tools/check-colors` | Checks runtime theme bindings in the page, popups and tooltips with dark and light palettes (requires Quickshell) |
 | `tools/screenshot [sample…] [--themes a,b]` | Renders samples under themes to `shots/`, offscreen, and fails on any warning in the log |
 | `tools/readme-shots` | Renders the screenshots in this README |
 | `tools/dev start FILE` | Starts a private offscreen instance to drive over IPC (`state`, `key`, `shot`) |

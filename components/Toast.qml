@@ -1,5 +1,6 @@
 import QtQuick
 import qs.Commons
+import qs.Commons as OmarchyTheme
 import qs.services
 
 // A brief confirmation at the bottom of the window ("Copied …").
@@ -19,7 +20,7 @@ Rectangle {
   width: label.implicitWidth + Style.space(28)
   height: label.implicitHeight + Style.space(14)
   radius: height / 2
-  color: Color.popups.background
+  color: OmarchyTheme.Color.popups.background
   border.width: 1
   border.color: Theme.hairline
   opacity: shown ? 1 : 0
