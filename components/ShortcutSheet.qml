@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell.Io
 import qs.Commons
+import qs.Commons as OmarchyTheme
 import qs.services
 
 // `?`: every key on one quiet card over a scrim. Any of ?, q or Esc closes.
@@ -33,7 +34,7 @@ Rectangle {
     width: Math.min(parent.width - Style.space(48), Style.space(520))
     height: column.implicitHeight + Style.space(44)
     radius: Math.max(6, Style.cornerRadius)
-    color: Color.popups.background
+    color: OmarchyTheme.Color.popups.background
     border.width: 1
     border.color: Theme.hairline
     MouseArea { anchors.fill: parent }

@@ -1,5 +1,6 @@
 import QtQuick
 import qs.Commons
+import qs.Commons as OmarchyTheme
 import qs.services
 
 // Ctrl+F: a small card under the header. Typing finds as you go; Enter and
@@ -18,7 +19,7 @@ Rectangle {
   implicitWidth: Style.space(380)
   implicitHeight: Style.space(40)
   radius: Math.max(4, Style.cornerRadius)
-  color: Color.popups.background
+  color: OmarchyTheme.Color.popups.background
   border.width: 1
   border.color: Theme.hairline
 

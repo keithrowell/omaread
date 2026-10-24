@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+"""Check the app's actual theme bindings under Quickshell, with dark/light palettes."""
+
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import tempfile
+
+root = Path(__file__).resolve().parent.parent
+with tempfile.TemporaryDirectory(prefix="omaread-colors-") as temporary:
+    stage = Path(temporary)
+    for name in ("Commons", "Ui", "services", "components", "lib", "vendor", "VERSION"):
+        (stage / name).symlink_to(root / name)
+    (stage / "shell.qml").write_text((root / "test/theme-colors.qml").read_text())
+    theme = stage / "theme"
+    theme.mkdir()
+    (theme / "colors.toml").write_text('background = "#16202a"\nforeground = "#e0e8f0"\n')
+    (theme / "shell.toml").write_text("")
+    env = dict(os.environ, OMAREAD_THEME_DIR=str(theme), QT_QPA_PLATFORM="offscreen")
+    result = subprocess.run(
+        ["qs", "-p", str(stage / "shell.qml"), "--no-duplicate"],
+        env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=20,
+    )
+    output = re.sub(r"\x1b\[[0-9;]*m", "", result.stdout)
+    match = re.search(r"THEME_COLORS_RESULT (\{[^\n]+\})", output)
+    warnings = [line for line in output.splitlines()
+                if any(error in line for error in ("TypeError:", "ReferenceError:", "Unable to assign"))]
+    if result.returncode or not match:
+        print(output)
+        raise SystemExit("Theme check did not complete")
+    report = json.loads(match[1])
+    for failure in report["failures"]:
+        print("FAIL: " + failure)
+    for warning in warnings:
+        print(warning)
+    if report["failures"] or warnings:
+        raise SystemExit(1)
+    print(f'PASS: {report["checks"]} theme bindings across dark and light palettes; no binding errors')
